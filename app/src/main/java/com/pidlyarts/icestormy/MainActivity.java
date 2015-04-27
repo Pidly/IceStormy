@@ -3,6 +3,8 @@ package com.pidlyarts.icestormy;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
@@ -34,7 +36,12 @@ import butterknife.InjectView;
 public class MainActivity extends ActionBarActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
+    LocationManager lm;
+
     private CurrentWeather mCurrentWeather;
+
+    public double latitude = 37.8267;
+    public double longitude = -122.423;
 
     @InjectView(R.id.timeLabel) TextView mTimeLabel;
     @InjectView(R.id.temperatureLabel) TextView mTemperatureLabel;
@@ -44,6 +51,8 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.iconImageView) ImageView mIconImageView;
     @InjectView(R.id.refreshImageView) ImageView mRefreshImageView;
     @InjectView(R.id.progressBar) ProgressBar mProgressBar;
+    @InjectView(R.id.locationLabel) TextView mLocationLabel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +62,16 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.inject(this);
 
         mProgressBar.setVisibility(View.INVISIBLE);
-        final double latitude = 37.8267;
-        final double longitude = -122.423;
+        //final double latitude = 37.8267;
+        //final double longitude = -122.423;
+
+        lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        //-----------------------------//
+
 
         mRefreshImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,6 +166,8 @@ public class MainActivity extends ActionBarActivity {
 
         Drawable drawable = getResources().getDrawable(mCurrentWeather.getIconId());
         mIconImageView.setImageDrawable(drawable);
+
+        mLocationLabel.setText(mCurrentWeather.getLocationLabel());
     }
 
     private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
@@ -166,6 +185,7 @@ public class MainActivity extends ActionBarActivity {
         currentWeather.setTemperature(currently.getDouble("temperature"));
         currentWeather.setTime(currently.getLong("time"));
         currentWeather.setTimeZone(timezone);
+        currentWeather.setmLocationLabel(getApplicationContext(), latitude, longitude);
 
         return currentWeather;
     }

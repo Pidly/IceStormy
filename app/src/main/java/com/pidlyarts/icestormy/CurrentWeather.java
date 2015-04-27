@@ -1,7 +1,14 @@
 package com.pidlyarts.icestormy;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -14,7 +21,7 @@ public class CurrentWeather {
     private double mHumidity;
     private double mPrecipChance;
     private String mSummary;
-
+    private String mLocationLabel;
     private String mTimeZone;
 
     public String getIcon() {
@@ -119,5 +126,22 @@ public class CurrentWeather {
 
     public void setTimeZone(String timeZone) {
         mTimeZone = timeZone;
+    }
+
+    public String getLocationLabel() {
+        return mLocationLabel;
+    }
+
+    public void setmLocationLabel(Context context, double lat, double lng) {
+        String city = "";
+
+        Geocoder gcd = new Geocoder(context, Locale.getDefault());
+        try {
+            List<Address> addresses = gcd.getFromLocation(lat, lng, 1);
+            city = addresses.get(0).getLocality();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.mLocationLabel = city;
     }
 }
