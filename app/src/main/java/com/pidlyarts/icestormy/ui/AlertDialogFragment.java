@@ -1,10 +1,12 @@
-package com.pidlyarts.icestormy;
+package com.pidlyarts.icestormy.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
+
+import com.pidlyarts.icestormy.R;
 
 /**
  * Created by devinsmythe on 4/26/15.

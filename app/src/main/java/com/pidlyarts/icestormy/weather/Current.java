@@ -1,8 +1,10 @@
-package com.pidlyarts.icestormy;
+package com.pidlyarts.icestormy.weather;
 
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+
+import com.pidlyarts.icestormy.R;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -14,7 +16,7 @@ import java.util.TimeZone;
 /**
  * Created by devinsmythe on 4/26/15.
  */
-public class CurrentWeather {
+public class Current {
     private String mIcon;
     private long mTime;
     private double mTemperature;
